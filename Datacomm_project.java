@@ -8,6 +8,7 @@ package datacomm_project;
 import java.math.*;
 import java.io.*;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -19,7 +20,14 @@ public class Datacomm_project {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        int[] senders = new int[100];
+        Scanner sc = new Scanner(System.in);
+        int packetDur;
+        int timeLength;
+        int p;
+        
+        System.out.println("Please enter a desired p value: ");
+        int i = sc.nextInt();
     }
         
     public static int randInt(int min, int max){
