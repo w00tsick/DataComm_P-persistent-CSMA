@@ -22,8 +22,10 @@ public class Datacomm_project {
     public static void main(String[] args) {
         int[] senders = new int[100];
         int[] packetDurations = new int[100];
+        int[] packetStack = new int[40];
         Scanner sc = new Scanner(System.in);
-        int i = 0, compare = 0, j =0, totalDuration = 0, k =0;
+        int i = 0, compare = 0, j =0, totalDuration = 0, k =0,
+                stackCounter = 0, u = 0, priorityCounter = 0;
         boolean transmit = false;
         float p, x=0;
         
@@ -54,8 +56,30 @@ public class Datacomm_project {
         
         //collision detection loop
         for(i = 0; i < connectionLength.length - 1; i++){
-            if(!transmit)
-                System.out.println("Connection idle");
+            if(!transmit){
+                if(stackCounter == 0)
+                    System.out.println("Connection idle");
+                else if(stackCounter > 0){
+                    u = u + priorityCounter;
+                    while(packetStack[u] != 0){
+                        System.out.println("Test priority Queue: "
+                                + packetStack[u]);
+                        x = randInt(1, 100);
+                        x = (x / 100);
+                        if(x < p){
+                            System.out.println("transmitting priority queue: " + 
+                                    packetStack[u]);
+                            transmit = true;
+                            priorityCounter++;
+                            break;
+                        }
+                        else{
+                            System.out.println("moving to next in priority");
+                            u++;
+                        }
+                    }
+                }
+            }
             else{
                 if(packetDurations[k] == 0){
                     System.out.println("Connection is now free");
@@ -68,18 +92,23 @@ public class Datacomm_project {
             }
             if(i == senders[j]){
                 System.out.println("Test connection at: " + senders[j]);
+                
                 x = randInt(1, 100);
                 x = (x / 100);
+                
                 if((x < p) && transmit != true){
                     transmit = true;
-                    j++;
-                }else if(transmit == true){
-                    System.out.println("Connection is busy");
-                    j++;
+                }else if((x < p) && transmit == true){
+                    System.out.println("Connection is busy, throw on stack");
+                    packetStack[stackCounter] = senders[j];
+                    stackCounter++;
                 }else{
                     System.out.println("x > p, waiting...");
-                    j++;
+                    i--;
+                    j--;
                 }
+                
+                j++;
             }
 
             /*compare = senders[i + 1] - senders[i];
