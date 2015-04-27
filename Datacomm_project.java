@@ -23,7 +23,7 @@ public class Datacomm_project {
         int[] senders = new int[100];
         int[] packetDurations = new int[100];
         Scanner sc = new Scanner(System.in);
-        int i = 0, compare = 0;
+        int i = 0, compare = 0, j =0, totalDuration = 0, k =0;
         boolean transmit = false;
         float p, x=0;
         
@@ -43,15 +43,50 @@ public class Datacomm_project {
         while(i < senders.length -1){
             System.out.println("sender locations: " + senders[i]);
             System.out.println("sender durations: " + packetDurations[i]);
+            totalDuration += packetDurations[i];
+            System.out.println("total duration: " + totalDuration);
             i++;
         }
         
+        int[] connectionLength = new int[totalDuration + senders[senders.length -1]];
+        System.out.println("total connection length: " + connectionLength.length);
+
+        
         //collision detection loop
-        for(i = 0; i < senders.length - 1; i++){
-            compare = senders[i + 1] - senders[i];
+        for(i = 0; i < connectionLength.length - 1; i++){
+            if(!transmit)
+                System.out.println("Connection idle");
+            else{
+                if(packetDurations[k] == 0){
+                    System.out.println("Connection is now free");
+                    transmit = false;
+                    k++;
+                }else{
+                    System.out.println("sending: " + packetDurations[k]);
+                    packetDurations[k]--;
+                }
+            }
+            if(i == senders[j]){
+                System.out.println("Test connection at: " + senders[j]);
+                x = randInt(1, 100);
+                x = (x / 100);
+                if((x < p) && transmit != true){
+                    transmit = true;
+                    j++;
+                }else if(transmit == true){
+                    System.out.println("Connection is busy");
+                    j++;
+                }else{
+                    System.out.println("x > p, waiting...");
+                    j++;
+                }
+            }
+
+            /*compare = senders[i + 1] - senders[i];
             if(transmit == true){
-                packetDurations[i] = packetDurations[i] - 1;
-                if(packetDurations[i] == 0){
+                packetDurations[i - 1] = packetDurations[i - 1] - 1;
+                System.out.println(packetDurations[i - 1]);
+                if(packetDurations[i - 1] == 0){
                     transmit = false;
                     i++;
                 }
@@ -69,7 +104,7 @@ public class Datacomm_project {
                     System.out.println("x > p, waiting...");
                     i--;
                 }
-            }
+            }*/
         }
     }
         
