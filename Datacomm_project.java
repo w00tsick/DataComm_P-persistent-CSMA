@@ -29,29 +29,15 @@ public class Datacomm_project {
                 stackCounter = 0, u = 0, priorityCounter = 0;
         boolean transmit = false;
         float p, x=0;
-        int idleCounter = 0, totalcycles = 0;
-        
-		//write data to excel file
+        double idleCounter = 0, totalcycles = 0;
+        double average;
         BufferedWriter writer = null;
-    try {
-        writer = new BufferedWriter(new FileWriter("./output.xls"));
-        writer.write("hello\t");
-        writer.write("my\t");
-        writer.write("name\n");
-        writer.write("is\t");
-    } catch (IOException e) {
-        System.err.println(e);
-    } finally {
-        if (writer != null) {
-            try {
-                writer.close();
-            } catch (IOException e) {
-                System.err.println(e);
-            }
+        try {
+            writer = new BufferedWriter(new FileWriter("./output.xls"));
+        } catch (IOException e) {
+            System.err.println(e);
         }
-    }
         
-		
         System.out.println("Please enter a desired p value: ");
         p = sc.nextFloat();
         
@@ -103,7 +89,20 @@ public class Datacomm_project {
                 }
                 if(!transmit){
                     idleCounter++;
-                    System.out.println("idle Counter: " + idleCounter);
+                    //write data to excel file
+    /*try {
+        writer.write(idleCounter + "\t");
+    } catch (IOException e) {
+        System.err.println(e);
+    } finally {
+        if (writer != null) {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+        }
+    }*/
                 }
             }
             else{
@@ -136,13 +135,37 @@ public class Datacomm_project {
                 j++;
             }
             totalcycles++;
+            //write data to excel file
+            
+            average = idleCounter/totalcycles;
+            try {
+        
+        writer.write(average + "\n");
+    } catch (IOException e) {
+        System.err.println(e);
+    } /*finally {
+        if (writer != null) {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+        }
+    }*/
             if(j == 99){
                 break;
             }
         }
         System.out.println("Total cycle count: " + totalcycles);
         System.out.println("Total idle cycles: " + idleCounter);
-    }
+        try {
+            writer.flush();
+            writer.close();
+        }
+        catch (IOException e) {
+                System.err.println(e);
+            }
+        }
         
     public static int randInt(int min, int max){
         Random rand = new Random();
