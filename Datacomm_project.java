@@ -31,6 +31,27 @@ public class Datacomm_project {
         float p, x=0;
         int idleCounter = 0, totalcycles = 0;
         
+		//write data to excel file
+        BufferedWriter writer = null;
+    try {
+        writer = new BufferedWriter(new FileWriter("./output.xls"));
+        writer.write("hello\t");
+        writer.write("my\t");
+        writer.write("name\n");
+        writer.write("is\t");
+    } catch (IOException e) {
+        System.err.println(e);
+    } finally {
+        if (writer != null) {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+        }
+    }
+        
+		
         System.out.println("Please enter a desired p value: ");
         p = sc.nextFloat();
         
