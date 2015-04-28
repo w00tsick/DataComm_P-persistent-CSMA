@@ -29,6 +29,7 @@ public class Datacomm_project {
                 stackCounter = 0, u = 0, priorityCounter = 0;
         boolean transmit = false;
         float p, x=0;
+        int idleCounter = 0, totalcycles = 0;
         
         System.out.println("Please enter a desired p value: ");
         p = sc.nextFloat();
@@ -79,8 +80,10 @@ public class Datacomm_project {
                         }
                     }
                 }
-                if(!transmit)
-                    System.out.println("Connection idle");
+                if(!transmit){
+                    idleCounter++;
+                    System.out.println("idle Counter: " + idleCounter);
+                }
             }
             else{
                 if(packetDurations[k] == 0){
@@ -111,31 +114,13 @@ public class Datacomm_project {
                 }
                 j++;
             }
-
-            /*compare = senders[i + 1] - senders[i];
-            if(transmit == true){
-                packetDurations[i - 1] = packetDurations[i - 1] - 1;
-                System.out.println(packetDurations[i - 1]);
-                if(packetDurations[i - 1] == 0){
-                    transmit = false;
-                    i++;
-                }
-                i--;
+            totalcycles++;
+            if(j == 99){
+                break;
             }
-            else{
-                System.out.println("connection is free");
-                x = randInt(1, 100);
-                x = (x / 100);
-                if(x < p){
-                    System.out.println("Transmitting for " + packetDurations[i]);
-                    transmit = true;
-                }else{
-                    transmit = false;
-                    System.out.println("x > p, waiting...");
-                    i--;
-                }
-            }*/
         }
+        System.out.println("Total cycle count: " + totalcycles);
+        System.out.println("Total idle cycles: " + idleCounter);
     }
         
     public static int randInt(int min, int max){
