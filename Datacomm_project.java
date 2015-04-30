@@ -79,11 +79,14 @@ public class Datacomm_project {
                                     packetStack[u]);
                             transmit = true;
                             priorityCounter++;
+                            stackCounter--;
+                            System.out.println("Packets waiting: " + stackCounter);
                             break;
                         }
                         else{
                             System.out.println("moving to next in priority");
                             u++;
+                            stackCounter--;
                         }
                     }
                 }
@@ -127,6 +130,7 @@ public class Datacomm_project {
                     System.out.println("Connection is busy, throw on stack");
                     packetStack[stackCounter] = senders[j];
                     stackCounter++;
+                    System.out.println("Packets waiting: " + stackCounter);
                 }else{
                     System.out.println("x > p, waiting...");
                     i--;
@@ -140,7 +144,8 @@ public class Datacomm_project {
             average = idleCounter/totalcycles;
             try {
         
-        writer.write(average + "\n");
+        writer.write(average + "\t");
+        writer.write(stackCounter + "\n");
     } catch (IOException e) {
         System.err.println(e);
     } /*finally {
@@ -152,7 +157,7 @@ public class Datacomm_project {
             }
         }
     }*/
-            if(j == 99){
+            if(j == 100){
                 break;
             }
         }
